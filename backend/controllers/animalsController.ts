@@ -1,62 +1,76 @@
 import { Request, Response } from "express"
+import * as AnimalModel from "../models/Animal"
+import * as EventModel from "../models/Event"
 
-
-export const getAllAnimals = (req: Request, res: Response) => {
-	const animals = [
-		{ id: 1, name: "Lion", species: "Panthera leo", age: 5 },
-		{ id: 2, name: "Elephant", species: "Loxodonta africana", age: 10 },
-		{ id: 3, name: "Giraffe", species: "Giraffa camelopardalis", age: 7 }
-	]
-
-	res.json(animals)
+// GET /animals - Lists all animals
+export const getAllAnimals = async (req: Request, res: Response) => {
+	try {
+		const animals = await AnimalModel.getAll()
+		res.json(animals)
+	} catch (error) {
+		res.status(500).json({ error: "Failed to fetch animals" })
+	}
 }
 
+// POST /animals 
+export const addAnimal = async (req: Request, res: Response) => {
+	try {
+		const { name, species, birth_date } = req.body
 
-export const addAnimal = (req: Request, res: Response) => {
-	const { name, species, age } = req.body
+		if (!name || !species || !birth_date) {
+			return res.status(400).json({ error: "Missing required fields: name, species, birth_date" })
+		}
 
-	const newAnimal = {
-		id: Date.now(),
-		name,
-		species,
-		age
+		const newAnimal = await AnimalModel.create({ name, species, birth_date })
+		res.status(201).json(newAnimal)
+	} catch (error) {
+		res.status(500).json({ error: "Failed to create animal" })
 	}
-
-	res.status(201).json(newAnimal)
 }
 
+// GET /animals/:id 
+export const getAnimalById = async (req: Request, res: Response) => {
+	try {
+		const { id } = req.params
+		const animal = await AnimalModel.getByIdWithEvents(parseInt(id))
 
-export const getAnimalById = (req: Request, res: Response) => {
-	const { id } = req.params
+		if (!animal) {
+			return res.status(404).json({ error: "Animal not found" })
+		}
 
-	const animal = {
-		id: parseInt(id),
-		name: "Lion",
-		species: "Panthera leo",
-		age: 5,
-		events: [
-			{ id: 1, type: "Feeding", date: "2024-10-15", description: "Morning feeding" },
-			{ id: 2, type: "Checkup", date: "2024-10-18", description: "Routine health check" }
-		]
+		res.json(animal)
+	} catch (error) {
+		res.status(500).json({ error: "Failed to fetch animal" })
 	}
-
-	res.json(animal)
 }
 
+// POST /animals/:id/events
+export const addAnimalEvent = async (req: Request, res: Response) => {
+	try {
+		const { id } = req.params
+		const { type, description, event_date } = req.body
 
-export const addAnimalEvent = (req: Request, res: Response) => {
-	const { id } = req.params
-	const { type, date, description } = req.body
+		if (!type || !event_date) {
+			return res.status(400).json({ error: "Missing required fields: type, event_date" })
+		}
 
-	const newEvent = {
-		id: Date.now(),
-		animalId: parseInt(id),
-		type,
-		date,
-		description
+		
+		const animal = await AnimalModel.getById(parseInt(id))
+		if (!animal) {
+			return res.status(404).json({ error: "Animal not found" })
+		}
+
+		const newEvent = await EventModel.create({
+			animal_id: parseInt(id),
+			type,
+			description: description || "",
+			event_date
+		})
+
+		res.status(201).json(newEvent)
+	} catch (error) {
+		res.status(500).json({ error: "Failed to create event" })
 	}
-
-	res.status(201).json(newEvent)
 }
 
 
