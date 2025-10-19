@@ -2,7 +2,7 @@ import { create } from "zustand"
 import axios from "axios"
 import type { Animal, AnimalWithEvents, Event } from "../types/types"
 
-const serverUrl = "http://localhost:5001/api"
+const serverUrl = import.meta.env.VITE_API_URL || "http://localhost:5001/api"
 
 interface AnimalStore {
 	animals: Animal[]

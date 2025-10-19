@@ -1,4 +1,5 @@
 import e from "express"
+import cors from "cors"
 import dotenv from "dotenv"
 import animalsRoutes from "./routes/animals"
 import { initDatabase } from "./config/database"
@@ -6,6 +7,7 @@ import { initDatabase } from "./config/database"
 dotenv.config()
 
 const app = e()
+app.use(cors())
 app.use(e.json())
 const PORT = process.env.PORT || 5001
 
