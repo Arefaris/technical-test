@@ -39,34 +39,28 @@ export default function EventForm({ animalId }: EventFormProps) {
 			<h3>Add New Event</h3>
 			<form onSubmit={handleSubmit}>
 				<div className="form-field">
-					<label>
-						Event Type:
-						<select value={type} onChange={(e) => setType(e.target.value as Event['type'])}>
-							<option value="Visit">Visit</option>
-							<option value="Treatment">Treatment</option>
-							<option value="Observation">Observation</option>
-						</select>
-					</label>
+					<label>Event Type:</label>
+					<select value={type} onChange={(e) => setType(e.target.value as Event['type'])}>
+						<option value="Visit">Visit</option>
+						<option value="Treatment">Treatment</option>
+						<option value="Observation">Observation</option>
+					</select>
 				</div>
 				<div className="form-field">
-					<label>
-						Description:
-						<input
-							type="text"
-							value={description}
-							onChange={(e) => setDescription(e.target.value)}
-						/>
-					</label>
+					<label>Description:</label>
+					<input
+						type="text"
+						value={description}
+						onChange={(e) => setDescription(e.target.value)}
+					/>
 				</div>
 				<div className="form-field">
-					<label>
-						Date:
-						<input
-							type="date"
-							value={eventDate}
-							onChange={(e) => setEventDate(e.target.value)}
-						/>
-					</label>
+					<label>Date:</label>
+					<input
+						type="date"
+						value={eventDate}
+						onChange={(e) => setEventDate(e.target.value)}
+					/>
 				</div>
 				<button type="submit" disabled={isLoading}>
 					{isLoading ? 'Adding...' : 'Add Event'}

@@ -63,7 +63,7 @@ export const useAnimalStore = create<AnimalStore>((set) => ({
 	addEvent: async (animalId: string, event) => {
 		set({ isLoading: true, error: null })
 		try {
-			const response = await axios.post(`${serverUrl}/animals/${animalId}/events`, event)
+			const response = await axios.post(`${serverUrl}/${animalId}/events`, event)
 
 			// Update currentAnimal with new event
 			set((state) => {

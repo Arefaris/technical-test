@@ -5,10 +5,34 @@ import EventList from '../../components/EventList/EventList'
 import EventForm from '../../components/EventForm/EventForm'
 import './AnimalDetails.css'
 
+const serverUrl = "http://localhost:5001/api"
+
 export default function AnimalDetails() {
 	const { id } = useParams<{ id: string }>()
 	const navigate = useNavigate()
 	const { currentAnimal, getAnimalById, isLoading, error } = useAnimalStore()
+
+	const handleExportExcel = async () => {
+		if (!id) return
+
+		try {
+			const response = await fetch(`${serverUrl}/${id}/export`)
+			const blob = await response.blob()
+
+			//Create download link
+			const url = window.URL.createObjectURL(blob)
+			const link = document.createElement('a')
+			link.href = url
+			link.download = `animal_${id}_${currentAnimal?.name || 'export'}.xlsx`
+			document.body.appendChild(link)
+			link.click()
+			document.body.removeChild(link)
+			window.URL.revokeObjectURL(url)
+		} catch (error) {
+			console.error('Failed to export:', error)
+			alert('Failed to export Excel file')
+		}
+	}
 
 	useEffect(() => {
 		if (id) {
@@ -53,9 +77,14 @@ export default function AnimalDetails() {
 
 	return (
 		<div className="animal-details-container">
-			<button className="back-button" onClick={() => navigate('/')}>
-				← Back to Animals
-			</button>
+			<div className="header-actions">
+				<button className="back-button" onClick={() => navigate('/')}>
+					← Back to Animals
+				</button>
+				<button className="export-button" onClick={handleExportExcel}>
+					📥 Export to Excel
+				</button>
+			</div>
 
 			<div className="animal-info-card">
 				<h1>{currentAnimal.name}</h1>

@@ -9,6 +9,10 @@
 	margin-top: 0;
 }
 
+.event-form-container form {
+	max-width: 500px;
+}
+
 .event-form-container .form-field {
 	margin-bottom: 15px;
 }
@@ -21,11 +25,14 @@
 
 .event-form-container input,
 .event-form-container select {
+	display: block;
 	width: 100%;
 	padding: 8px;
 	border: 1px solid #ddd;
 	border-radius: 4px;
 	box-sizing: border-box;
+	font-family: inherit;
+	font-size: 14px;
 }
 
 .event-form-container button {
@@ -38,6 +45,7 @@
 }
 
 .event-form-container button:disabled {
+	background-color: #ccc;
 	cursor: not-allowed;
 }
 
