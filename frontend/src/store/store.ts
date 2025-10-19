@@ -40,7 +40,7 @@ export const useAnimalStore = create<AnimalStore>((set) => ({
 	addAnimal: async (animal) => {
 		set({ isLoading: true, error: null })
 		try {
-			const response = await axios.post(`${serverUrl}/animals`, animal)
+			const response = await axios.post(`${serverUrl}/add`, animal)
 			set((state) => ({
 				animals: [...state.animals, response.data],
 				isLoading: false

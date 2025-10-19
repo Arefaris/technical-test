@@ -6,17 +6,36 @@ interface AnimalCardProps {
 	animal: Animal
 }
 
-const calculateAge = (birthDate: string): number => {
+const calculateAge = (birthDate: string): string => {
 	const birth = new Date(birthDate)
 	const today = new Date()
-	let age = today.getFullYear() - birth.getFullYear()
-	const monthDiff = today.getMonth() - birth.getMonth()
 
-	if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
-		age--
+	let years = today.getFullYear() - birth.getFullYear()
+	let months = today.getMonth() - birth.getMonth()
+
+	if (today.getDate() < birth.getDate()) {
+		months--
 	}
 
-	return age
+	if (months < 0) {
+		years--
+		months += 12
+	}
+
+	const yearString = years > 0 ? `${years} year${years > 1 ? 's' : ''}` : ''
+	const monthString =
+		months > 0 ? `${months} month${months > 1 ? 's' : ''}` : ''
+
+	if (yearString && monthString) {
+		return `${yearString}, ${monthString}`
+	}
+	if (yearString) {
+		return yearString
+	}
+	if (monthString) {
+		return monthString
+	}
+	return 'Less than a month old'
 }
 
 export default function AnimalCard({ animal }: AnimalCardProps) {
@@ -25,7 +44,7 @@ export default function AnimalCard({ animal }: AnimalCardProps) {
 			<div className="animal-card">
 				<h3>{animal.name}</h3>
 				<p><strong>Species:</strong> {animal.species}</p>
-				<p><strong>Age:</strong> {calculateAge(animal.birth_date)} years</p>
+				<p><strong>Age:</strong> {calculateAge(animal.birth_date)}</p>
 				<p><strong>Birth Date:</strong> {animal.birth_date}</p>
 			</div>
 		</Link>

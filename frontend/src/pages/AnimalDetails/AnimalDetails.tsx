@@ -62,17 +62,36 @@ export default function AnimalDetails() {
 		)
 	}
 
-	const calculateAge = (birthDate: string): number => {
+	const calculateAge = (birthDate: string): string => {
 		const birth = new Date(birthDate)
 		const today = new Date()
-		let age = today.getFullYear() - birth.getFullYear()
-		const monthDiff = today.getMonth() - birth.getMonth()
 
-		if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
-			age--
+		let years = today.getFullYear() - birth.getFullYear()
+		let months = today.getMonth() - birth.getMonth()
+
+		if (today.getDate() < birth.getDate()) {
+			months--
 		}
 
-		return age
+		if (months < 0) {
+			years--
+			months += 12
+		}
+
+		const yearString = years > 0 ? `${years} year${years > 1 ? 's' : ''}` : ''
+		const monthString =
+			months > 0 ? `${months} month${months > 1 ? 's' : ''}` : ''
+
+		if (yearString && monthString) {
+			return `${yearString}, ${monthString}`
+		}
+		if (yearString) {
+			return yearString
+		}
+		if (monthString) {
+			return monthString
+		}
+		return 'Less than a month old'
 	}
 
 	return (
@@ -93,7 +112,7 @@ export default function AnimalDetails() {
 						<strong>Species:</strong> {currentAnimal.species}
 					</div>
 					<div>
-						<strong>Age:</strong> {calculateAge(currentAnimal.birth_date)} years
+						<strong>Age:</strong> {calculateAge(currentAnimal.birth_date)}
 					</div>
 					<div>
 						<strong>Birth Date:</strong> {currentAnimal.birth_date}
