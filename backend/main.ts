@@ -12,7 +12,6 @@ const PORT = process.env.PORT || 5001
 //Routes
 app.use("/api", animalsRoutes)
 
-// Инициализация базы данных и запуск сервера
 const startServer = async () => {
 	try {
 		await initDatabase()
