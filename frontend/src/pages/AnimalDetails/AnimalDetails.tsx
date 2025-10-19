@@ -1,0 +1,80 @@
+import { useEffect } from 'react'
+import { useParams, useNavigate } from 'react-router'
+import { useAnimalStore } from '../../store/store'
+import EventList from '../../components/EventList/EventList'
+import EventForm from '../../components/EventForm/EventForm'
+import './AnimalDetails.css'
+
+export default function AnimalDetails() {
+	const { id } = useParams<{ id: string }>()
+	const navigate = useNavigate()
+	const { currentAnimal, getAnimalById, isLoading, error } = useAnimalStore()
+
+	useEffect(() => {
+		if (id) {
+			getAnimalById(id)
+		}
+	}, [id, getAnimalById])
+
+	if (isLoading) {
+		return <div className="loading">Loading animal details...</div>
+	}
+
+	if (error) {
+		return (
+			<div className="error-container">
+				<p className="error-message">Error: {error}</p>
+				<button onClick={() => navigate('/')}>Back to Animals</button>
+			</div>
+		)
+	}
+
+	if (!currentAnimal) {
+		return (
+			<div className="error-container">
+				<p>Animal not found</p>
+				<button onClick={() => navigate('/')}>Back to Animals</button>
+			</div>
+		)
+	}
+
+	const calculateAge = (birthDate: string): number => {
+		const birth = new Date(birthDate)
+		const today = new Date()
+		let age = today.getFullYear() - birth.getFullYear()
+		const monthDiff = today.getMonth() - birth.getMonth()
+
+		if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
+			age--
+		}
+
+		return age
+	}
+
+	return (
+		<div className="animal-details-container">
+			<button className="back-button" onClick={() => navigate('/')}>
+				← Back to Animals
+			</button>
+
+			<div className="animal-info-card">
+				<h1>{currentAnimal.name}</h1>
+				<div className="animal-info-grid">
+					<div>
+						<strong>Species:</strong> {currentAnimal.species}
+					</div>
+					<div>
+						<strong>Age:</strong> {calculateAge(currentAnimal.birth_date)} years
+					</div>
+					<div>
+						<strong>Birth Date:</strong> {currentAnimal.birth_date}
+					</div>
+				</div>
+			</div>
+
+			<EventList events={currentAnimal.events} />
+
+			<EventForm animalId={currentAnimal.id} />
+		</div>
+	)
+}

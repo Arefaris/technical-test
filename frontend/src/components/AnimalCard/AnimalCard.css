@@ -1,0 +1,33 @@
+.animal-card-link {
+	text-decoration: none;
+	color: inherit;
+	display: block;
+	transition: transform 0.2s;
+}
+
+.animal-card-link:hover {
+	transform: translateY(-4px);
+}
+
+.animal-card {
+	border: 1px solid #ddd;
+	padding: 15px;
+	border-radius: 8px;
+	background-color: #fff;
+	cursor: pointer;
+	transition: box-shadow 0.2s;
+}
+
+.animal-card:hover {
+	box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.animal-card h3 {
+	margin-top: 0;
+	color: #333;
+}
+
+.animal-card p {
+	margin: 8px 0;
+	color: #666;
+}

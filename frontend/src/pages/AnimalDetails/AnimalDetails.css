@@ -1,0 +1,70 @@
+.animal-details-container {
+	padding: 20px;
+	max-width: 1200px;
+	margin: 0 auto;
+}
+
+.back-button {
+	padding: 10px 20px;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+	cursor: pointer;
+	margin-bottom: 20px;
+}
+
+.back-button:hover {
+	background-color: #e0e0e0;
+}
+
+.animal-info-card {
+	border: 1px solid #ddd;
+	border-radius: 8px;
+	padding: 25px;
+	margin-bottom: 30px;
+	box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.animal-info-card h1 {
+	margin-top: 0;
+}
+
+.animal-info-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+	gap: 15px;
+	margin-top: 15px;
+}
+
+.animal-info-grid div {
+	padding: 10px;
+	border-radius: 4px;
+}
+
+.loading {
+	padding: 40px;
+	text-align: center;
+	font-size: 18px;
+}
+
+.error-container {
+	padding: 40px;
+	text-align: center;
+}
+
+.error-message {
+	color: red;
+	margin-bottom: 20px;
+}
+
+.error-container button {
+	padding: 10px 20px;
+	background-color: #2196F3;
+	color: white;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+}
+
+.error-container button:hover {
+	background-color: #1976D2;
+}

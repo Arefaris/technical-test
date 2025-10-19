@@ -1,0 +1,13 @@
+.animal-form-container {
+	margin-bottom: 30px;
+	border: 1px solid #ccc;
+	padding: 20px;
+}
+
+.form-field {
+	margin-bottom: 10px;
+}
+
+.form-field input {
+	margin-left: 10px;
+}

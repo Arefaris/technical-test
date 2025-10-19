@@ -1,0 +1,14 @@
+.animal-list-container {
+	margin-top: 20px;
+}
+
+.error-message {
+	color: red;
+	margin-bottom: 20px;
+}
+
+.animals-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+	gap: 20px;
+}
